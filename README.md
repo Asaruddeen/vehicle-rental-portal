@@ -86,6 +86,7 @@ A full-stack web application for renting vehicles, built with React (frontend) a
 
 ### Authentication
 - `POST /api/auth/register` - User registration
+
 - `POST /api/auth/login` - User login
 
 ### Vehicles
