@@ -59,45 +59,47 @@ const BookVehicle = () => {
     }
   })
 
-  const handleBookNow = (vehicle) => {
-    console.log('handleBookNow called with vehicle:', vehicle)
-    
-    // Check if vehicle is available
-    if (!vehicle.available) {
-      toast.error('This vehicle is currently unavailable for booking', {
-        icon: '🚫',
-        duration: 3000
-      })
-      return
-    }
-    
-    // Check if user is logged in
-    if (!user) {
-      // Save the vehicle they wanted to book in session storage
-      sessionStorage.setItem('intendedBooking', JSON.stringify({
-        vehicleId: vehicle._id,
-        vehicleName: `${vehicle.brand} ${vehicle.model}`,
-        timestamp: new Date().toISOString()
-      }))
-      
-      // Show toast message
-      toast.error('Please login to book a vehicle', {
-        icon: '🔐',
-        duration: 3000
-      })
-      
-      // Redirect to login page with return URL
-      navigate('/login', { 
-        state: { 
-          from: '/dashboard',
-          message: 'Please login to continue with your booking'
-        }
-      })
-      return
-    }
-    
-    openBookingModal(vehicle)
+const handleBookNow = (vehicle) => {
+  console.log('handleBookNow called with vehicle:', vehicle)
+  
+  // Check if vehicle is available
+  if (!vehicle.available) {
+    toast.error('This vehicle is currently unavailable for booking', {
+      icon: '🚫',
+      duration: 3000
+    })
+    return
   }
+  
+  // Check if user is logged in
+  if (!user) {
+    // Save the vehicle they wanted to book in session storage
+    sessionStorage.setItem('intendedBooking', JSON.stringify({
+      vehicleId: vehicle._id,
+      vehicleName: `${vehicle.brand} ${vehicle.model}`,
+      timestamp: new Date().toISOString()
+    }))
+    
+    // Show toast message
+    toast.error('Please login to book a vehicle', {
+      icon: '🔐',
+      duration: 3000
+    })
+    
+    // Redirect to login page with return URL
+    navigate('/login', { 
+      state: { 
+        from: '/dashboard',
+        message: 'Please login to continue with your booking'
+      }
+    })
+    return
+  }
+  
+  // THIS IS THE FIX - Set the selected vehicle and show modal
+  setSelectedVehicle(vehicle)
+  setShowBookingModal(true)
+}
 
   // Calculate counts
   const totalVehicles = vehicles.length
